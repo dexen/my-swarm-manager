@@ -1,0 +1,43 @@
+#!/usr/bin/env pil
+
+(setq ConfigFile (text "@1@2" (car (file)) "config.rc"))
+
+(when (= (argv) '("-h"))
+	(prinl "Usage: ./my-swarm-manager.git/CONFIG DIRECTORY HOST PORT")
+	(bye) )
+
+(setq Servers (rc ConfigFile 'Servers))
+(setq NewRecord ())
+
+(when (= (length (argv)) 2)
+	(setq NewRecord (argv))
+	(prin "port number: ")(flush)
+	(setq P (glue "" (trim (in "/dev/stdin" (line NIL)))))
+	(setq NewRecord (append NewRecord (list P))) )
+
+(when (= (length (argv)) 3)
+	(setq NewRecord (argv)) )
+
+(when NewRecord
+	(push 'Servers NewRecord) )
+
+(mapcar
+	'((Group)
+		(when (> (length Group) 1)
+			(prinl "Fatal error: conflicting ports")
+			(prinl (; Group 1))
+			(prinl (; Group 2))
+			(bye) ) )
+	(by caddr group Servers))
+
+(when NewRecord
+	(rc ConfigFile 'Servers Servers) )
+
+(mapcar
+	'((Rcd)
+		(prinl (; Rcd 3) "\t" (; Rcd 2) ":" (; Rcd 1)) )
+	(by caddr sort Servers) )
+
+(call "./my-swarm-manager.git/LIST")
+
+(bye)
