@@ -1,0 +1,22 @@
+#!/usr/bin/env pil
+
+(setq ConfigFile (text "@1@2" (car (file)) "config.rc"))
+
+(setq A (rc ConfigFile 'Servers))
+(show 'A)
+
+(mapcar
+	'((Rcd)
+		(let Dir (car Rcd)
+			(unless (fork)
+				(cd Dir)
+				(exec "./SWARM_SERVE" (; Rcd 2) (; Rcd 3)) ) ) )
+	(rc ConfigFile 'Servers) )
+
+(finally
+	(kill 0)
+	(do 10000
+#		(prin ".")(flush)
+		(wait 5000) ) )
+
+(bye)
