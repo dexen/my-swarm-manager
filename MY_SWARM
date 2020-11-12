@@ -1,6 +1,12 @@
 #!/usr/bin/env pil
 
-(setq ConfigFile (text "@1@2" (car (file)) "config.rc"))
+(setq TheScript (text "@1@2" (car (file)) (cadr (file))))
+
+(if (> (native "@" "readlink" 'N TheScript '(Buf (4096 C . 4096 )) 4096) 0)
+	(setq InstallDir (dirname (glue "" Buf)))
+	(setq InstallDir (car (file))) )
+
+(setq ConfigFile (text "@1@2" InstallDir "config.rc"))
 
 (setq A (rc ConfigFile 'Servers))
 (show 'A)
