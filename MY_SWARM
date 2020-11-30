@@ -8,9 +8,6 @@
 
 (setq ConfigFile (text "@1@2" InstallDir "config.rc"))
 
-(setq A (rc ConfigFile 'Servers))
-(show 'A)
-
 (mapcar
 	'((Rcd)
 		(let Dir (car Rcd)
