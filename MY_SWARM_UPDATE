@@ -1,0 +1,19 @@
+#!/usr/bin/env rc
+
+flag e +
+
+for (instance in my-swarm-manager* tlb-*)
+	@ {
+		echo '	' ^ pull-pushing instance $instance
+		cd $instance
+		if (git diff | grep . > /dev/null)
+			echo WARNING: Uncommitted changes in instance '''' $instance ''''
+		git pull --ff-only --quiet
+		git push --quiet }		
+for (instance in my-swarm-manager* tlb-*)
+	@ {
+		echo '	' ^ pulling instance $instance
+		cd $instance
+		git pull --ff-only --quiet origin master }	
+
+echo ALL DONE.
