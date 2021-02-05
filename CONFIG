@@ -3,7 +3,7 @@
 (setq ConfigFile (text "@1@2" (car (file)) "config.rc"))
 
 (when (= (argv) '("-h"))
-	(prinl "Usage: ./my-swarm-manager.git/CONFIG DIRECTORY HOST PORT")
+	(prinl "Usage: ./MY_SWARM_CONFIG DIRECTORY HOST [PORT]")
 	(bye) )
 
 (setq Servers (rc ConfigFile 'Servers))
