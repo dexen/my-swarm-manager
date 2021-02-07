@@ -24,10 +24,10 @@
 (setq WorkerPids ())
 
 (setq *Hup '(
-	(prinl "SIGHUP, restarting processes...")
+	(prinl "SIGHUP, stopping workers...")
 	(StopWorkers)
 	(prinl "waiting...")(wait 200)
-	(prinl "starting once again...")
+	(prinl "starting workers again...")
 	(StartWorkers)
 	(prinl "done.")
 	))
