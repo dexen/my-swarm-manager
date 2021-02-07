@@ -23,9 +23,9 @@
 
 (setq WorkerPids ())
 
+(setq NeedsStopWorkers NIL)
 (setq *Hup '(
-	(prinl "SIGHUP, stopping workers...")
-	(StopWorkers)
+	(setq NeedsStopWorkers T)
 	))
 
 (de StartWorkers
@@ -60,6 +60,8 @@
 	(StopWorkers)
 	(do T
 #		(prin ".")(flush)
+		(when NeedsStopWorkers
+			(StopWorkers) )
 		(unless WorkerPids
 			(StartWorkers) )
 		(native "@" "sleep" 'I 2) ) )
