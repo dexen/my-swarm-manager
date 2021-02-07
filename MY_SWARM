@@ -68,6 +68,7 @@
 
 (finally
 	(StopWorkers)
+
 	(do T
 #		(prin ".")(flush)
 		(when NeedsStopWorkers
