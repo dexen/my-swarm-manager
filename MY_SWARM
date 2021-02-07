@@ -50,11 +50,16 @@
 
 (de StopWorkers
 	()
-	(while (pop 'WorkerPids)
-#		(prinl "stopping worker " @)
-		(kill @ 1) ) )
 
-(StartWorkers)
+	(prinl "doing StopWorkers: " WorkerPids)
+	(while WorkerPids
+		(let Pid (car WorkerPids)
+			(kill Pid 2)
+			(native "@" "waitpid" 'I Pid 'I)
+			(pop 'WorkerPids) ) )
+	(setq NeedsStopWorkers NIL)
+)
+
 
 (finally
 	(StopWorkers)
