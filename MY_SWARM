@@ -22,6 +22,8 @@
 (setq *Hup '(
 	(prinl "SIGHUP, restarting processes...")
 	(StopWorkers)
+	(prinl "starting once again...")
+	(StartWorkers)
 	(prinl "done.")
 	))
 
