@@ -35,6 +35,7 @@
 				(if (fork)
 					(push 'WorkerPids @)
 
+					(detach)
 					(setq *Hup '((kill 0)))
 					(unless (fork)
 						(cd Dir)
