@@ -19,14 +19,18 @@
 
 (setq WorkerPids ())
 
-(mapcar
-	'((Rcd)
-		(let Dir (car Rcd)
-			(if (fork)
-				(push 'WorkerPids @)
-				(cd Dir)
-				(exec "./SWARM_SERVE" (; Rcd 2) (; Rcd 3)) ) ) )
-	(rc ConfigFile 'Servers) )
+(de StartWorkers
+	()
+	(mapcar
+		'((Rcd)
+			(let Dir (car Rcd)
+				(if (fork)
+					(push 'WorkerPids @)
+					(cd Dir)
+					(exec "./SWARM_SERVE" (; Rcd 2) (; Rcd 3)) ) ) )
+		(rc ConfigFile 'Servers) ) )
+
+(StartWorkers)
 
 (finally
 	(kill 0)
