@@ -9,6 +9,10 @@
 (setq ConfigFile (text "@1@2" *InstallDir "config.rc"))
 (setq PidFile (text "@1@2" *InstallDir "pid.rc"))
 
+(when (= (argv) '("restart"))
+	(kill (rc PidFile 'Pid) 1)
+	(bye) )
+
 (when (rc PidFile 'Pid)
 	(let OPid @
 		(when (info (text "/proc/@1" OPid))
