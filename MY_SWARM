@@ -26,10 +26,6 @@
 (setq *Hup '(
 	(prinl "SIGHUP, stopping workers...")
 	(StopWorkers)
-	(prinl "waiting...")(wait 200)
-	(prinl "starting workers again...")
-	(StartWorkers)
-	(prinl "done.")
 	))
 
 (de StartWorkers
@@ -64,6 +60,8 @@
 	(StopWorkers)
 	(do T
 #		(prin ".")(flush)
+		(unless WorkerPids
+			(StartWorkers) )
 		(wait 5000) ) )
 
 (bye)
