@@ -36,17 +36,20 @@
 				(if (fork)
 					(push 'WorkerPids @)
 
-					(detach)
-					(setq *Hup '((kill 0)))
-					(unless (fork)
-						(cd Dir)
-						(exec "./SWARM_SERVE" (; Rcd 2) (; Rcd 3)) )
-					(finally
-						(prog (prinl "sending (kill 0) in the CHILD process")(kill 0))
-						(do T
-#							(prin "x")(flush)
-							(wait 6000) ) ) ) ) )
-		(rc ConfigFile 'Servers) ) )
+# careful now: seems that (detach) makes signal propagation *unreliable*
+# or perhaps otherwise makes the parent process -> children process termination unreliable
+#					(detach)
+					(when (fork)
+						(setq *Hup NIL)
+						(finally
+							(prog (kill 0 1))
+							(do T
+								(wait 4000)
+							) ))
+					(cd Dir)
+					(exec "./SWARM_SERVE" (; Rcd 2) (; Rcd 3)) ) ) )
+		(rc ConfigFile 'Servers) )
+)
 
 (de StopWorkers
 	()
