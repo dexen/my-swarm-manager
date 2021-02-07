@@ -19,6 +19,12 @@
 
 (setq WorkerPids ())
 
+(setq *Hup '(
+	(prinl "SIGHUP, restarting processes...")
+	(StopWorkers)
+	(prinl "done.")
+	))
+
 (de StartWorkers
 	()
 	(mapcar
@@ -37,6 +43,12 @@
 #							(prin "x")(flush)
 							(wait 6000) ) ) ) ) )
 		(rc ConfigFile 'Servers) ) )
+
+(de StopWorkers
+	()
+	(while (pop 'WorkerPids)
+#		(prinl "stopping worker " @)
+		(kill @ 1) ) )
 
 (StartWorkers)
 
