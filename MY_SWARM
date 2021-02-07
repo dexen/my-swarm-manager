@@ -9,6 +9,12 @@
 (setq ConfigFile (text "@1@2" *InstallDir "config.rc"))
 (setq PidFile (text "@1@2" *InstallDir "pid.rc"))
 
+(when (rc PidFile 'Pid)
+	(let OPid @
+		(when (info (text "/proc/@1" OPid))
+			(prinl "Fatal error: instance already active on pid " OPid "; shutting down")
+			(bye 2) ) ) )
+
 (rc PidFile 'Pid *Pid)
 
 (mapcar
