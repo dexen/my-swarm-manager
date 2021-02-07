@@ -62,6 +62,6 @@
 #		(prin ".")(flush)
 		(unless WorkerPids
 			(StartWorkers) )
-		(wait 5000) ) )
+		(native "@" "sleep" 'I 2) ) )
 
 (bye)
