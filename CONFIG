@@ -10,7 +10,28 @@
 
 (when (= (argv) '("-h"))
 	(prinl "Usage: ./MY_SWARM_CONFIG DIRECTORY HOST [PORT]")
+	(prinl "Usage: ./MY_SWARM_CONFIG --delete DIRECTORY")
 	(bye) )
+
+
+(when (= (car (argv)) "--delete")
+
+	(let (FoundRcd () TheDir (cadr (argv)))
+		(rc ConfigFile 'Servers
+			(prog1
+				(filter
+					'((Rcd TheDir)
+						(if (<> (car Rcd) TheDir)
+							Rcd
+							(nil (setq FoundRcd Rcd))) )
+					(rc ConfigFile 'Servers)
+					TheDir )
+				(if FoundRcd
+					(prinl "Server \"" TheDir "\" had host \"" (cadr FoundRcd) \"" port \"" (caddr FoundRcd) "\", deleting from config")
+					(prinl "No matching server found for dir \"" TheDir "\"")
+					(bye 1) ) ) ) )
+	(bye) )
+
 
 (setq Servers (rc ConfigFile 'Servers))
 (setq NewRecord ())
