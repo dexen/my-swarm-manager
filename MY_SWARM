@@ -33,7 +33,7 @@
 				(if (fork)
 					(push 'WorkerPids @)
 
-					(setq *Hup '(kill 0))
+					(setq *Hup '((kill 0)))
 					(unless (fork)
 						(cd Dir)
 						(exec "./SWARM_SERVE" (; Rcd 2) (; Rcd 3)) )
