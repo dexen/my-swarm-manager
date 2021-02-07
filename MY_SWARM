@@ -10,6 +10,8 @@
 (setq PidFile (text "@1@2" *InstallDir "pid.rc"))
 
 (when (= (argv) '("restart"))
+		# SIGHUP: 1
+		# SIGINT: 2 (the ^C typed on keyboard)
 	(kill (rc PidFile 'Pid) 1)
 	(bye) )
 
