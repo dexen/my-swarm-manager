@@ -27,7 +27,7 @@
 
 (finally
 	(kill 0)
-	(do 10000
+	(do T
 #		(prin ".")(flush)
 		(wait 5000) ) )
 
