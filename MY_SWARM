@@ -56,7 +56,6 @@
 (de StopWorkers
 	()
 
-	(prinl "doing StopWorkers: " WorkerPids)
 	(while WorkerPids
 		(let Pid (car WorkerPids)
 			(kill Pid 2)
