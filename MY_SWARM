@@ -53,7 +53,7 @@
 (StartWorkers)
 
 (finally
-	(kill 0)
+	(StopWorkers)
 	(do T
 #		(prin ".")(flush)
 		(wait 5000) ) )
