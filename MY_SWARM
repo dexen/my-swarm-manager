@@ -7,6 +7,9 @@
 	(setq *InstallDir (car (file))) )
 
 (setq ConfigFile (text "@1@2" *InstallDir "config.rc"))
+(setq PidFile (text "@1@2" *InstallDir "pid.rc"))
+
+(rc PidFile 'Pid *Pid)
 
 (mapcar
 	'((Rcd)
