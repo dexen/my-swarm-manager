@@ -17,10 +17,13 @@
 
 (rc PidFile 'Pid *Pid)
 
+(setq WorkerPids ())
+
 (mapcar
 	'((Rcd)
 		(let Dir (car Rcd)
-			(unless (fork)
+			(if (fork)
+				(push 'WorkerPids @)
 				(cd Dir)
 				(exec "./SWARM_SERVE" (; Rcd 2) (; Rcd 3)) ) ) )
 	(rc ConfigFile 'Servers) )
