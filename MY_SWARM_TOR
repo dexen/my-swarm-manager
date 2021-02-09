@@ -1,0 +1,38 @@
+#!/usr/bin/env rc
+
+#flag e +
+
+toCleanup=()
+
+fn sigexit {
+	echo DOING CLEANUP $*...
+	kill $toCleanup
+	echo DONE CLEANUP $*
+}
+
+fn sigint { sigexit SIGINT; exit 1 }
+
+for (dir in *) {
+	tdir=$dir/.tlb/tor-hidden-service
+	if (test -e $tdir/hostname) {
+#		echo $dir `{cat $tdir/hostname}
+	 	{
+	 		cd $dir
+	 		exec ./SERVE_TOR
+		} &
+		toCleanup=($toCleanup $apid)
+	}
+}
+
+sleep 1
+
+#echo toCleanup $toCleanup
+
+for (dir in *) {
+	tdir=$dir/.tlb/tor-hidden-service
+	if (test -e $tdir/hostname) {
+		echo $dir `{cat $tdir/hostname}
+	}
+}
+
+wait
