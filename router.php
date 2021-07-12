@@ -22,4 +22,19 @@ function renderListing()
 	echo '</ul>';
 }
 
-renderListing();
+$url = parse_url($_SERVER['REQUEST_URI']);
+
+$upa = explode('/', $url['path']);
+
+if ($upa[0] === '')
+	array_shift($upa);
+else
+	throw new \Exception(sprintf('unexpected url path format: "%s"', $url['path']));
+
+
+if ($upa === [ '' ])
+	renderListing();
+else if ($upa[0] === 'sites')
+	renderSite($upa[1]);
+else
+	renderNotFound();
