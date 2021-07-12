@@ -15,3 +15,14 @@ function td(...$a)
 	echo "--\ntd()";
 	die(1);
 }
+
+	# preserve the slashes, i.e.,
+	# 'foo/bar baz.jpeg' => 'foo/bar%20baz.jpeg'
+function rawurlencode_path(string $str = null) : string
+{
+	if ($str === null)
+		return $str;
+	return implode('/',
+		array_map('rawurlencode',
+			explode('/', $str) ) );
+}
