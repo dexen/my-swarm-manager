@@ -10,6 +10,7 @@ function sitesA() : array
 	$a = glob('sites/*/',  GLOB_MARK | GLOB_ONLYDIR | GLOB_ERR);
 	return array_map(
 		fn($pn) => [
+			'id' => basename($pn),
 			'name' => basename($pn),
 			'path' => dirname($pn .'/DUMMY.txt'),
 			'pathU' => rawurlencode_path(dirname($pn .'/DUMMY.txt')),
@@ -42,6 +43,17 @@ function renderNotFound()
 	echo '<p>Go to <a href="/">the main page?</a></p>';
 }
 
+function renderSite($url, $upa)
+{
+	$site = $upa[0];
+	foreach (sitesA() as $rcd)
+		if ($rcd['id'] === $site) {
+			if (!chdir($rcd['path'] .'/public_html'))
+				throw new \Exception(sprintf('chdir("%s")', $rcd['path'] .'/public_html'));
+			return require $rcd['path'] .'/public_html/index.php'; }
+	renderNotFound();
+}
+
 $url = parse_url($_SERVER['REQUEST_URI']);
 
 $upa = explode('/', $url['path']);
@@ -54,7 +66,9 @@ else
 
 if ($upa === [ '' ])
 	renderListing();
-else if ($upa[0] === 'sites')
-	renderSite($upa[1]);
+else if ($upa[0] === 'sites') {
+	array_shift($upa);
+	renderSite($url, $upa);
+}
 else
 	renderNotFound();
