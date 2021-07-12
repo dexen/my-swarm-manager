@@ -50,7 +50,7 @@ function renderSite($url, $upa)
 		if ($rcd['id'] === $site) {
 			if (!chdir($rcd['path'] .'/public_html'))
 				throw new \Exception(sprintf('chdir("%s")', $rcd['path'] .'/public_html'));
-			return require $rcd['path'] .'/public_html/index.php'; }
+			return (function() { require func_get_arg(0); })($rcd['path'] .'/public_html/index.php'); }
 	renderNotFound();
 }
 
