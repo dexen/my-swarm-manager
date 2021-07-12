@@ -1,5 +1,7 @@
 <?php
 
+namespace dexen\MySwarm;
+
 function H($v) { return htmlspecialchars($v); }
 function U($v) { return rawurlencode($v); }
 function HU($v) { return htmlspecialchars(rawurlencode($v)); }
