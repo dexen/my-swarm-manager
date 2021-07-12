@@ -18,7 +18,7 @@ function renderListing()
 
 	echo '<ul>';
 		foreach ($b as $rcd)
-			echo '<li><a href="', HU($rcd[0]), '">', H($rcd[0]) .'</a></li>';
+			echo '<li><a href="', HU($rcd[1]), '">', H($rcd[0]) .'</a></li>';
 	echo '</ul>';
 }
 
