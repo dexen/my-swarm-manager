@@ -5,23 +5,26 @@ ini_set('display_errors', true);
 
 require 'lib.php';
 
-function renderListing()
+function sitesA() : array
 {
-	echo '<!DOCTYPE html>';
-	echo '<html>';
-	echo '<body>';
-
 	$a = glob('sites/*/',  GLOB_MARK | GLOB_ONLYDIR | GLOB_ERR);
-	$b = array_map(
+	return array_map(
 		fn($pn) => [
 			'name' => basename($pn),
 			'path' => dirname($pn .'/DUMMY.txt'),
 			'pathU' => rawurlencode_path(dirname($pn .'/DUMMY.txt')),
 		],
 		$a );
+}
+
+function renderListing()
+{
+	echo '<!DOCTYPE html>';
+	echo '<html>';
+	echo '<body>';
 
 	echo '<ul>';
-		foreach ($b as $rcd)
+		foreach (sitesA() as $rcd)
 			echo '<li><a href="', H($rcd['pathU']), '">', H($rcd['name']) .'</a></li>';
 	echo '</ul>';
 }
