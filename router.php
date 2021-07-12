@@ -13,12 +13,16 @@ function renderListing()
 
 	$a = glob('sites/*/',  GLOB_MARK | GLOB_ONLYDIR | GLOB_ERR);
 	$b = array_map(
-		fn($pn) => [ basename($pn), dirname($pn .'/DUMMY.txt'), $pn .'public_html/index.php' ],
+		fn($pn) => [
+			'name' => basename($pn),
+			'path' => dirname($pn .'/DUMMY.txt'),
+			'pathU' => rawurlencode_path(dirname($pn .'/DUMMY.txt')),
+		],
 		$a );
 
 	echo '<ul>';
 		foreach ($b as $rcd)
-			echo '<li><a href="', HU($rcd[1]), '">', H($rcd[0]) .'</a></li>';
+			echo '<li><a href="', H($rcd['pathU']), '">', H($rcd['name']) .'</a></li>';
 	echo '</ul>';
 }
 
