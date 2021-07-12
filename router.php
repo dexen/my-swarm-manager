@@ -24,6 +24,7 @@ function renderListing()
 {
 	echo '<!DOCTYPE html>';
 	echo '<html>';
+	echo '<head><title>My Swarm</title>';
 	echo '<body>';
 
 	echo '<ul>';
