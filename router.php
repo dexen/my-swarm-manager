@@ -22,6 +22,19 @@ function renderListing()
 	echo '</ul>';
 }
 
+function renderNotFound()
+{
+	header('HTTP/1.1 404 Not Found');
+
+	echo '<!DOCTYPE html>';
+	echo '<html>';
+	echo '<body>';
+
+	echo '<h1>HTTP 404 Not found</h1>';
+
+	echo '<p>Go to <a href="/">the main page?</a></p>';
+}
+
 $url = parse_url($_SERVER['REQUEST_URI']);
 
 $upa = explode('/', $url['path']);
