@@ -14,8 +14,8 @@ function sitesA() : array
 		fn($pn) => [
 			'id' => basename($pn),
 			'name' => basename($pn),
-			'path' => dirname($pn .'/DUMMY.txt'),
-			'pathU' => rawurlencode_path(dirname($pn .'/DUMMY.txt')),
+			'path' => dirname($pn .'/DUMMY.txt') .'/',
+			'pathU' => rawurlencode_path(dirname($pn .'/DUMMY.txt') .'/'),
 		],
 		$a );
 }
@@ -46,14 +46,33 @@ function renderNotFound()
 	echo '<p>Go to <a href="/">the main page?</a></p>';
 }
 
+function resolveAndProcessResource(string $dir, string $subdir, array $upa)
+{
+	if ($upa === [ '' ])
+		$upa = [ 'index.php' ];
+
+	if (in_array('..', $upa))
+		throw new \Exception('unsupported: dot-dot');
+
+	$wd = $dir .$subdir;
+	array_unshift($upa, $wd);
+	$pn = implode('/', $upa);
+
+	if (strrpos($pn, '.php') === (strlen($pn)-4)) {
+		if (!chdir($wd))
+			throw new \Exception('could not set wd');
+			/* note: do *not* return the result of the require, to avoid returning false */
+		return (function() { require func_get_arg(0); })(($pn)); }
+	else
+		return false; /* make PHP's built-in server serve the resource as-is */
+}
+
 function renderSite($url, $upa)
 {
-	$site = $upa[0];
+	$site = array_shift($upa);
 	foreach (sitesA() as $rcd)
-		if ($rcd['id'] === $site) {
-			if (!chdir($rcd['path'] .'/public_html'))
-				throw new \Exception(sprintf('chdir("%s")', $rcd['path'] .'/public_html'));
-			return (function() { require func_get_arg(0); })($rcd['path'] .'/public_html/index.php'); }
+		if ($rcd['id'] === $site)
+			return resolveAndProcessResource($rcd['path'], 'public_html', $upa);
 	renderNotFound();
 }
 
@@ -71,7 +90,7 @@ if ($upa === [ '' ])
 	renderListing();
 else if ($upa[0] === 'sites') {
 	array_shift($upa);
-	renderSite($url, $upa);
+	return renderSite($url, $upa);
 }
 else
 	renderNotFound();
