@@ -2,7 +2,7 @@
 
 flag e +
 
-for (instance in my-swarm-manager* tlb-* busy-rpg*)
+for (instance in sites/*)
 	@ {
 		echo '	' ^ pull-pushing instance $instance
 		cd $instance
@@ -10,7 +10,7 @@ for (instance in my-swarm-manager* tlb-* busy-rpg*)
 			echo WARNING: Uncommitted changes in instance '''' $instance ''''
 		git pull --ff-only --quiet
 		git push --quiet }		
-for (instance in my-swarm-manager* tlb-* busy-rpg*)
+for (instance in sites/*)
 	@ {
 		echo '	' ^ pulling instance $instance
 		cd $instance
