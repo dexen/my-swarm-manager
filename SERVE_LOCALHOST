@@ -1,5 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env rc
 
-export PHP_CLI_SERVER_WORKERS=8
+flag e +
+
+PHP_CLI_SERVER_WORKERS=8
 
 exec php -S localhost:9000 router.php
