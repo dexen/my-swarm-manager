@@ -4,6 +4,8 @@ flag e +
 
 for (instance in sites/*)
 	@ {
+		if (~ $instance */.gitignore)
+			exit
 		echo '	' ^ pull-pushing instance $instance
 		cd $instance
 		if (git diff | grep . > /dev/null)
@@ -12,6 +14,8 @@ for (instance in sites/*)
 		git push --quiet }		
 for (instance in sites/*)
 	@ {
+		if (~ $instance */.gitignore)
+			exit
 		echo '	' ^ pulling instance $instance
 		cd $instance
 		git pull --ff-only --quiet origin master }	
