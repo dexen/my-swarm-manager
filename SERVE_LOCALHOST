@@ -4,4 +4,6 @@ flag e +
 
 PHP_CLI_SERVER_WORKERS=8
 
+echo $pid > .servicepid
+
 exec php -S localhost:9000 router.php

@@ -1,0 +1,15 @@
+#!/usr/bin/env rc
+
+flag e +
+
+fn StartWorker {
+	exec nohup ./SERVE_LOCALHOST > /dev/null >[2]/dev/null
+}
+
+cd `{dirname $0}
+
+if (! test -e .servicepid)
+	StartWorker
+
+if (! test -d /proc/ ^ `{cat .servicepid})
+	StartWorker
