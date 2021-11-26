@@ -80,6 +80,11 @@ function renderSite($url, $upa)
 
 $url = parse_url($_SERVER['REQUEST_URI']);
 
+if (($url['path']??null) === '/favicon.ico') {
+	if (file_exists('favicon.ico')) {
+		header('Content-Type: image/vnd.microsoft.icon');
+		readfile('favicon.ico'); return true; } }
+
 $upa = explode('/', $url['path']);
 
 if ($upa[0] === '')
