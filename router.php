@@ -62,9 +62,11 @@ function resolveAndProcessResource(string $dir, string $subdir, array $upa)
 		if (!chdir($wd))
 			throw new \Exception('could not set wd');
 			/* note: do *not* return the result of the require, to avoid returning false */
-		return (function() { require func_get_arg(0); })(($pn)); }
+		(function() { require func_get_arg(0); })(($pn)); }
+	else if (file_exists($pn))
+		readfile($pn);
 	else
-		return false; /* make PHP's built-in server serve the resource as-is */
+		renderNotFound();
 }
 
 function renderSite($url, $upa)
@@ -90,7 +92,9 @@ if ($upa === [ '' ])
 	renderListing();
 else if ($upa[0] === 'sites') {
 	array_shift($upa);
-	return renderSite($url, $upa);
-}
+	renderSite($url, $upa); }
 else
 	renderNotFound();
+
+	# indicate to the built-in server that we've handled the request - one way or another.
+return true;
