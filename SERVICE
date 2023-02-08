@@ -3,7 +3,11 @@
 flag e +
 
 fn StartWorker {
-	exec nohup ./SERVE_LOCALHOST > /dev/null >[2]/dev/null
+		# goofy stuff to ensure we properly fork off & detach
+		# not sure why rc(1) is ass about it
+	@ {
+		./SERVE_LOCALHOST >/dev/null >[2]/dev/null &
+	}
 }
 
 cd `{dirname $0}
