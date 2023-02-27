@@ -12,8 +12,18 @@ fn StartWorker {
 
 cd `{dirname $0}
 
-if (! test -e .servicepid)
-	StartWorker
+if (test -e .servicepid)
+	spid=`{cat .servicepid}
+if not
+	spid=-1
 
-if (! test -d /proc/ ^ `{cat .servicepid})
-	StartWorker
+if (test -d /proc/$spid) {
+	from=`{realpath /proc/$spid/cwd}
+	to=`{realpath `{dirname $0}}
+	if (test $from = $to) {
+		echo >> a.log
+		echo >> a.log
+		date >> a.log
+		ls -l /proc/$spid/  >> a.log
+		exit } }
+StartWorker
